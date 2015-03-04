@@ -18,13 +18,14 @@ package com.gaodashang.jmd;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jta.JtaAutoConfiguration;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan
-@EnableAutoConfiguration
+@EnableAutoConfiguration(exclude = {JtaAutoConfiguration.class})
 public class MainApplicationConfiguration extends SpringBootServletInitializer {
 
     public static void main(String[] args) throws Exception {

@@ -1,9 +1,5 @@
 package com.gaodashang.jmd;
 
-import com.gaodashang.jmd.book.Book;
-import com.gaodashang.jmd.book.BookRepository;
-import com.gaodashang.jmd.person.Person;
-import com.gaodashang.jmd.person.PersonRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,18 +18,12 @@ public class MainController {
     private final Log logger = LogFactory.getLog(getClass());
 
     @Autowired
-    private PersonRepository personRepository;
-
-    @Autowired
-    private BookRepository bookRepository;
+    private HelloWorldService helloWorldService;
 
     @RequestMapping(value = "/helloWorld")
     @ResponseBody
     public String helloWorld() {
-        personRepository.save(new Person());
-        logger.debug(personRepository.findAll());
-        bookRepository.save(new Book());
-        logger.debug(bookRepository.findAll());
-        return "Hello World.";
+
+        return helloWorldService.helloWorld();
     }
 }

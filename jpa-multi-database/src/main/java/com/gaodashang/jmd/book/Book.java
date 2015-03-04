@@ -16,17 +16,18 @@
 
 package com.gaodashang.jmd.book;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "BOOK")
 public class Book {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "ID", nullable = false, unique = true)
 	private Long id;
 
+	@Column(name = "TITLE")
 	private String title;
 	
 	public String getTitle() {

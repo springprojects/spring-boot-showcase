@@ -44,9 +44,12 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
-    compile("org.springframework.boot:spring-boot-starter-web:1.2.2.RELEASE")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa:1.2.2.RELEASE")
-    compile("mysql:mysql-connector-java:5.1.33")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("org.springframework.boot:spring-boot-starter-jta-atomikos")
+    compile("javax.jms:jms:1.1")
+    compile("mysql:mysql-connector-java")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 }
 

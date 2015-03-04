@@ -14,16 +14,21 @@
  * limitations under the License.
  */package com.gaodashang.jmd.person;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "PERSON")
 public class Person {
+
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "ID", nullable = false, unique = true)
 	private Long id;
+
+	@Column(name = "FIRST_NAME", nullable = false)
 	private String firstName;
+
+	@Column(name = "LAST_NAME")
 	private String lastName;
 
 	public String getFirstName() {

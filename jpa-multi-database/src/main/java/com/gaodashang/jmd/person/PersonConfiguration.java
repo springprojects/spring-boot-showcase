@@ -16,35 +16,48 @@
 
 package com.gaodashang.jmd.person;
 
+import com.atomikos.jdbc.AtomikosDataSourceBean;
+import com.gaodashang.jmd.AtomikosJtaPlatform;
+import com.mysql.jdbc.jdbc2.optional.MysqlXADataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.autoconfigure.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@EnableJpaRepositories(basePackageClasses = Person.class, entityManagerFactoryRef = "personEntityManagerFactory", transactionManagerRef = "personTransactionManager")
+//@EnableJpaRepositories(basePackageClasses = Person.class, entityManagerFactoryRef = "personEntityManagerFactory", transactionManagerRef = "personTransactionManager")
+@EnableJpaRepositories(basePackageClasses = Person.class, entityManagerFactoryRef = "personEntityManagerFactory")
+@EnableConfigurationProperties(PersonDatasourceProperties.class)
 public class PersonConfiguration {
+
+	@Autowired
+	private PersonDatasourceProperties personDatasourceProperties;
 
 	@Autowired
 	private JpaProperties jpaProperties;
 
 	@Bean
 	@Primary
-	@ConfigurationProperties(prefix = "datasource.person")
 	public DataSource personDataSource() {
-		return DataSourceBuilder.create().build();
+		MysqlXADataSource mysqlXaDataSource = new MysqlXADataSource();
+		mysqlXaDataSource.setUrl(personDatasourceProperties.getUrl());
+		mysqlXaDataSource.setPinGlobalTxToPhysicalConnection(true);
+		mysqlXaDataSource.setPassword(personDatasourceProperties.getPassword());
+		mysqlXaDataSource.setUser(personDatasourceProperties.getUsername());
+		mysqlXaDataSource.setPinGlobalTxToPhysicalConnection(true);
+
+		AtomikosDataSourceBean xaDataSource = new AtomikosDataSourceBean();
+		xaDataSource.setXaDataSource(mysqlXaDataSource);
+		xaDataSource.setUniqueResourceName("xads2");
+		return xaDataSource;
 	}
 
 	@Bean
@@ -53,14 +66,18 @@ public class PersonConfiguration {
 			EntityManagerFactoryBuilder factory) {
 		Map<String, String> customizedJpaProperties = jpaProperties.getHibernateProperties(personDataSource());
 		customizedJpaProperties.put("hibernate.format_sql", "true");
-		return factory.dataSource(personDataSource()).properties(customizedJpaProperties).packages(Person.class).persistenceUnit(
+		customizedJpaProperties.put("hibernate.transaction.jta.platform", AtomikosJtaPlatform.class.getName());
+		customizedJpaProperties.put("javax.persistence.transactionType", "JTA");
+		return factory.dataSource(personDataSource()).properties(customizedJpaProperties).jta(true).packages(Person.class).persistenceUnit(
 				"people").build();
 	}
 
+	/*
 	@Bean(name = "personTransactionManager")
 	@Primary
 	public PlatformTransactionManager personTransactionManager(EntityManagerFactoryBuilder builder) {
 		return new JpaTransactionManager(personEntityManagerFactory(builder).getObject());
 	}
+	*/
 
 }
