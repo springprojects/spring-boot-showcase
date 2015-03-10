@@ -1,0 +1,7 @@
+server:
+  contextPath: /dubbo-consumer
+  port: 8077
+logging:
+  file: build/dubbo-consumer.log
+  level:
+    com.gaodashang.demo: DEBUG

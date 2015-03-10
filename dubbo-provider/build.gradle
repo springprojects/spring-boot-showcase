@@ -1,0 +1,81 @@
+buildscript {
+    repositories {
+        maven {
+            url "http://repo.spring.io/libs-release"
+        }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.2.RELEASE")
+    }
+}
+
+apply plugin: 'spring-boot'
+apply plugin: 'war'
+
+mainClassName = "com.gaodashang.demo.MainApplicationConfiguration"
+
+war {
+    baseName = 'dubbo-provider'
+    version =  '1.0.0'
+    manifest {
+        attributes 'Main-Class': 'com.gaodashang.demo.MainApplicationConfiguration'
+    }
+}
+
+configurations {
+    providedRuntime
+}
+
+sourceCompatibility = 1.8
+version = '1.0.0'
+
+repositories {
+    mavenLocal()
+    maven { url "http://repo.spring.io/libs-snapshot" }
+    jcenter()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+
+
+    compile("com.alibaba:dubbo-demo-api:2.8.3")
+    compile("com.alibaba:dubbo:2.8.3")
+    compile("org.javassist:javassist:3.15.0-GA")
+    compile("org.jboss.netty:netty:3.2.5.Final")
+    compile("org.apache.mina:mina-core:1.1.7")
+    compile("org.glassfish.grizzly:grizzly-core:2.1.4")
+    compile("org.apache.httpcomponents:httpclient:4.2.1")
+    compile("com.alibaba:fastjson:1.1.39")
+    compile("com.thoughtworks.xstream:xstream:1.4.1")
+    compile("org.apache.bsf:bsf-api:3.1")
+    compile("org.apache.zookeeper:zookeeper:3.3.3")
+    compile("com.github.sgroschupf:zkclient:0.1")
+    compile("org.apache.curator:curator-framework:2.5.0")
+    compile("com.googlecode.xmemcached:xmemcached:1.3.6")
+    compile("org.apache.cxf:cxf-rt-frontend-simple:2.6.1")
+    compile("org.apache.cxf:cxf-rt-transports-http:2.6.1")
+    compile("org.apache.thrift:libthrift:0.8.0")
+    compile("com.caucho:hessian:4.0.7")
+    compile("javax.servlet:javax.servlet-api:3.1.0")
+    compile("org.mortbay.jetty:jetty:6.1.26")
+    compile("log4j:log4j:1.2.16")
+    compile("org.slf4j:slf4j-api:1.6.2")
+    compile("redis.clients:jedis:2.1.0")
+    compile("javax.validation:validation-api:1.0.0.GA")
+    compile("org.hibernate:hibernate-validator:4.2.0.Final")
+    compile("javax.cache:cache-api:0.4")
+    compile("junit:junit:4.10")
+    compile("org.easymock:easymock:3.0")
+    compile("org.easymock:easymockclassextension:3.0")
+    compile("com.googlecode.jmockit:jmockit:0.999.8")
+
+}
+
+task "create-dirs" << {
+    sourceSets*.java.srcDirs*.each { it.mkdirs() }
+    sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+}
