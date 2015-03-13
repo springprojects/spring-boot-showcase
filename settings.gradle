@@ -5,3 +5,7 @@ include 'dubbo-provider'
 
 include 'dubbo-consumer'
 
+include 'websocket-tomcat'
+
+include 'websocket-tomcat-a'
+
