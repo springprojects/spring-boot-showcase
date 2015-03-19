@@ -11,7 +11,7 @@ import org.springframework.web.socket.TextMessage;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping("message")
+@RequestMapping("/message")
 public class MessageController {
 
     @Bean
@@ -24,7 +24,7 @@ public class MessageController {
         return "message";
     }
 
-    @RequestMapping("send")
+    @RequestMapping("/send")
     @ResponseBody
     public String send(HttpServletRequest request, @RequestParam("username") String username) {
         TextMessage message = new TextMessage(request.getParameter("message"));

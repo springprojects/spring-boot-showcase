@@ -11,15 +11,11 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class LoginController {
 
-    @RequestMapping("login")
+    @RequestMapping("/login")
     public String login(HttpServletRequest request, @RequestParam("username") String username) {
         HttpSession session = request.getSession();
         session.setAttribute(Constants.DEFAULT_SESSION_USERNAME, username);
-        return "redirect:index";
+        return "redirect:indexPage";
     }
 
-    @RequestMapping("index")
-    public String index() {
-        return "index";
-    }
 }
