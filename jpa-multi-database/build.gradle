@@ -2,12 +2,12 @@ buildscript {
     repositories {
         //mavenLocal()
         maven {
-            url "http://192.168.1.99:9090/nexus/content/groups/public/"
-            //url "http://repo.spring.io/libs-release"
+            //url "http://192.168.1.99:9090/nexus/content/groups/public/"
+            url "http://repo.spring.io/libs-release"
         }
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.2.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.3.RELEASE")
     }
 }
 
@@ -34,9 +34,9 @@ version = '1.0.0'
 repositories {
     //mavenLocal()
     //maven {url "http://maven.oschina.net/content/groups/public/"}
-    maven {
-        url "http://192.168.1.99:9090/nexus/content/groups/public/"
-    }
+    //maven {
+        //url "http://192.168.1.99:9090/nexus/content/groups/public/"
+   // }
     jcenter()
     maven { url "http://repo.spring.io/libs-snapshot" }
     //mavenCentral()
